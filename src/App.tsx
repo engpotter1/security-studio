@@ -8,12 +8,14 @@ import Ambient from "./components/Ambient";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Studio, { type Tab } from "./components/Studio";
+import IntroScreen from "./components/IntroScreen";
 
 type LabState = { text: string; mode: Mode; key: KeyState };
 
 const GOLD = "#F5B82E";
 
 export default function App() {
+  const [introDone, setIntroDone] = useState(false);
   const [lang, setLang] = useState<Lang>(() => (typeof navigator !== "undefined" && navigator.language?.toLowerCase().startsWith("ar") ? "ar" : "en"));
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [current, setCurrent] = useState<AlgorithmId | null>(null);
@@ -92,6 +94,8 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full max-w-full overflow-x-hidden">
+      {!introDone && <IntroScreen onDone={() => setIntroDone(true)} />}
+
       <Ambient accent={accent} theme={theme} />
 
       <Navbar
