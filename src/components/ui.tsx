@@ -87,9 +87,9 @@ export function Reveal({
 /* ---------------- always-LTR formula box ---------------- */
 export function FormulaBox({ text, caption, accent = "#F5B82E" }: { text: string; caption?: string; accent?: string }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#070910]/85">
+    <div className="relative w-full max-w-full overflow-hidden rounded-2xl border border-white/10 bg-[#070910]/85">
       <div className="absolute inset-y-0 start-0 w-[3px]" style={{ background: `linear-gradient(180deg, ${accent}, transparent)` }} />
-      <div className="flex items-center gap-2 border-b border-white/5 px-4 py-2">
+      <div className="flex items-center gap-2 border-b border-white/5 px-3 sm:px-4 py-2">
         <span className="mono text-[10px] tracking-[0.22em] text-white/35">FORMULA</span>
         <span className="h-px flex-1 bg-gradient-to-r from-white/12 to-transparent" />
         <span className="mono text-[10px] tracking-[0.18em]" style={{ color: accent }}>
@@ -98,12 +98,12 @@ export function FormulaBox({ text, caption, accent = "#F5B82E" }: { text: string
       </div>
       <pre
         dir="ltr"
-        className="ltr mono overflow-x-auto px-5 py-4 text-[15px] leading-7 whitespace-pre text-[#f4e9cf]"
+        className="ltr mono w-full max-w-full overflow-x-auto px-4 sm:px-5 py-3.5 sm:py-4 text-[13px] sm:text-[15px] leading-7 whitespace-pre text-[#f4e9cf]"
         style={{ textShadow: `0 0 26px ${accent}44` }}
       >
         {text}
       </pre>
-      {caption && <p dir="ltr" className="ltr border-t border-white/5 px-5 py-2.5 text-[12px] text-white/40">{caption}</p>}
+      {caption && <p dir="ltr" className="ltr border-t border-white/5 px-4 sm:px-5 py-2.5 text-[11.5px] sm:text-[12px] text-white/40">{caption}</p>}
     </div>
   );
 }
@@ -147,18 +147,18 @@ export function SectionHead({
   icon?: React.ReactNode;
 }) {
   return (
-    <div className="mb-5 flex items-center gap-3">
+    <div className="mb-4 sm:mb-5 flex w-full max-w-full items-center gap-2.5 sm:gap-3">
       {icon && (
         <span
-          className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border"
+          className="grid h-8 w-8 sm:h-9 sm:w-9 shrink-0 place-items-center rounded-xl border"
           style={{ borderColor: `${accent}44`, background: `${accent}14`, color: accent }}
         >
           {icon}
         </span>
       )}
-      <div className="min-w-0">
-        {kicker && <div className="section-label mb-0.5" style={{ color: accent }}>{kicker}</div>}
-        <h3 className="truncate text-[19px] font-bold tracking-tight text-white/95 sm:text-[21px]">{title}</h3>
+      <div className="min-w-0 flex-1 sm:flex-initial">
+        {kicker && <div className="section-label mb-0.5 truncate" style={{ color: accent }}>{kicker}</div>}
+        <h3 className="truncate text-[17px] sm:text-[21px] font-bold tracking-tight text-white/95">{title}</h3>
       </div>
       <span className="rule-gold hidden flex-1 sm:block" />
     </div>
@@ -168,11 +168,11 @@ export function SectionHead({
 /* ---------------- strength meter ---------------- */
 export function StrengthMeter({ value, accent = "#F5B82E", max = 5 }: { value: number; accent?: string; max?: number }) {
   return (
-    <div className="flex items-center gap-[5px]" title={`${value}/${max}`}>
+    <div className="flex shrink-0 items-center gap-[4px] sm:gap-[5px]" title={`${value}/${max}`}>
       {Array.from({ length: max }).map((_, i) => (
         <span
           key={i}
-          className="h-[14px] w-[5px] rounded-full transition-all duration-500"
+          className="h-[13px] sm:h-[14px] w-[4.5px] sm:w-[5px] rounded-full transition-all duration-500"
           style={{
             background: i < value ? accent : "rgba(255,255,255,0.1)",
             boxShadow: i < value ? `0 0 10px ${accent}99` : "none",
@@ -189,7 +189,7 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
   return (
     <button
       type="button"
-      className="btn btn-gold"
+      className="btn btn-gold shrink-0 !px-2.5 sm:!px-3.5 !py-1.5 !text-[11px] sm:!text-[12.5px]"
       disabled={!value}
       onClick={async () => {
         try {
@@ -206,8 +206,8 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
         setTimeout(() => setDone(false), 1600);
       }}
     >
-      {done ? <Check size={15} /> : <Copy size={15} />}
-      {done ? "✓" : label}
+      {done ? <Check size={13} className="sm:w-[15px] sm:h-[15px]" /> : <Copy size={13} className="sm:w-[15px] sm:h-[15px]" />}
+      <span>{done ? "✓" : label}</span>
     </button>
   );
 }
@@ -215,11 +215,11 @@ export function CopyButton({ value, label }: { value: string; label: string }) {
 /* ---------------- animated number ---------------- */
 export function Stat({ value, label, accent = "#F5B82E" }: { value: string; label: string; accent?: string }) {
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-white/8 bg-white/[0.02] px-4 py-3 transition-colors hover:border-white/15">
-      <div className="mono text-[22px] font-bold leading-none" style={{ color: accent }}>
+    <div className="group relative overflow-hidden rounded-xl border border-white/8 bg-white/[0.02] px-3 sm:px-4 py-2.5 sm:py-3 transition-colors hover:border-white/15">
+      <div className="mono text-[19px] sm:text-[22px] font-bold leading-none" style={{ color: accent }}>
         {value}
       </div>
-      <div className="mt-1.5 text-[11px] uppercase tracking-[0.14em] text-white/40">{label}</div>
+      <div className="mt-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-white/40 truncate">{label}</div>
       <span className="pointer-events-none absolute inset-x-0 bottom-0 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100" style={{ background: accent }} />
     </div>
   );

@@ -23,6 +23,14 @@
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   html {
@@ -34,7 +42,6 @@
     background-color: #0b0d14;
     color: #e8ecf5;
     font-family: var(--font-display);
-    overflow-x: hidden;
     font-feature-settings: "ss01", "cv01";
   }
 
