@@ -39,24 +39,24 @@ export default function Navbar({
       initial={{ y: -70, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 0.8, 0.24, 1] }}
-      className="sticky top-0 z-50"
+      className="sticky top-0 z-50 overflow-x-hidden"
     >
       <div
         className={`border-b transition-all duration-500 ${scrolled ? "border-white/8 bg-[#0B0D14]/85 backdrop-blur-xl" : "border-transparent bg-transparent"}`}
         style={scrolled ? { boxShadow: "0 18px 50px -32px rgba(0,0,0,1)" } : undefined}
       >
-        <div className="mx-auto flex h-[68px] max-w-[1440px] items-center gap-4 px-4 sm:px-6 lg:px-9">
-          <button onClick={onHome} className="group flex items-center gap-3 text-start">
+        <div className="mx-auto flex h-[64px] sm:h-[68px] max-w-[1440px] items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-9">
+          <button onClick={onHome} className="group flex items-center gap-2.5 sm:gap-3 text-start min-w-0">
             <span
-              className="relative grid h-10 w-10 place-items-center rounded-xl border transition-all duration-300 group-hover:scale-105"
+              className="relative grid h-9 w-9 sm:h-10 sm:w-10 shrink-0 place-items-center rounded-xl border transition-all duration-300 group-hover:scale-105"
               style={{ borderColor: `${accent}55`, background: `linear-gradient(150deg, ${accent}22, transparent)`, color: accent }}
             >
-              <ShieldHalf size={19} />
+              <ShieldHalf size={17} className="sm:w-[19px] sm:h-[19px]" />
               <span className="absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-hover:anim-ring" style={{ boxShadow: `0 0 0 1px ${accent}66` }} />
             </span>
-            <span className="hidden leading-tight sm:block">
-              <span className="block text-[15px] font-bold tracking-tight text-white/95">{t.brand.title}</span>
-              <span className="mono block text-[9.5px] uppercase tracking-[0.16em] text-white/35">{t.brand.sub}</span>
+            <span className="leading-tight truncate">
+              <span className="block text-[13.5px] sm:text-[15px] font-bold tracking-tight text-white/95 truncate">{t.brand.title}</span>
+              <span className="mono block text-[9px] sm:text-[9.5px] uppercase tracking-[0.16em] text-white/35 truncate">{t.brand.sub}</span>
             </span>
           </button>
 
@@ -79,20 +79,20 @@ export default function Navbar({
             ))}
           </div>
 
-          <div className="ms-auto flex items-center gap-2 lg:ms-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button onClick={() => setOpen((v) => !v)} className="btn btn-ghost !px-2.5 !py-2 lg:hidden" aria-label={t.nav.grid}>
               <LayoutGrid size={16} />
             </button>
-            <button onClick={onToggleLang} className="btn btn-gold" title={t.nav.langTitle}>
-              <Languages size={15} />
-              {t.nav.langBtn}
+            <button onClick={onToggleLang} className="btn btn-gold !px-3 sm:!px-4 !py-2 sm:!py-2.5 text-[12.5px] sm:text-[14px]" title={t.nav.langTitle}>
+              <Languages size={14} className="sm:w-[15px] sm:h-[15px]" />
+              <span>{t.nav.langBtn}</span>
             </button>
           </div>
         </div>
 
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="overflow-hidden border-t border-white/6 bg-[#0B0D14]/95 backdrop-blur-xl lg:hidden">
-            <div className="grid grid-cols-3 gap-2 p-4 sm:grid-cols-4">
+            <div className="grid grid-cols-3 gap-2 p-3 sm:p-4 sm:grid-cols-4 max-h-[60vh] overflow-y-auto">
               {ALGORITHMS.map((a) => (
                 <button
                   key={a.id}
@@ -106,7 +106,7 @@ export default function Navbar({
                   <span style={{ color: a.accent }}>
                     <Emblem id={a.id} size={17} />
                   </span>
-                  <span className="mono text-[10.5px] font-bold text-white/70">{a.n}</span>
+                  <span className="mono text-[10.5px] font-bold text-white/70 truncate">{a.n}. {a.content[lang].name}</span>
                 </button>
               ))}
             </div>
