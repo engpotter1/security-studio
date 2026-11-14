@@ -92,7 +92,7 @@ export default function Navbar({
 
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="overflow-hidden border-t border-white/6 bg-[#0B0D14]/95 backdrop-blur-xl lg:hidden">
-            <div className="grid grid-cols-3 gap-2 p-3 sm:p-4 sm:grid-cols-4 max-h-[60vh] overflow-y-auto">
+            <div className="grid grid-cols-2 gap-2 p-3 sm:p-4 sm:grid-cols-3 max-h-[60vh] overflow-y-auto">
               {ALGORITHMS.map((a) => (
                 <button
                   key={a.id}
@@ -100,13 +100,13 @@ export default function Navbar({
                     onPick(a.id);
                     setOpen(false);
                   }}
-                  className="flex items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-2.5 py-2 text-start"
+                  className="flex items-center gap-2 rounded-xl border border-white/8 bg-white/[0.02] px-3 py-2 text-start"
                   style={current === a.id ? { borderColor: `${a.accent}66`, background: `${a.accent}14` } : undefined}
                 >
                   <span style={{ color: a.accent }}>
                     <Emblem id={a.id} size={17} />
                   </span>
-                  <span className="mono text-[10.5px] font-bold text-white/70 truncate">{a.n}. {a.content[lang].name}</span>
+                  <span className="mono text-[11px] font-bold text-white/80 truncate">{a.n}. {a.content[lang].name}</span>
                 </button>
               ))}
             </div>

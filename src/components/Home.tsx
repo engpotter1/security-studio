@@ -66,7 +66,7 @@ export default function Home({ t, lang, onPick }: { t: Dict; lang: Lang; onPick:
           </Reveal>
 
           <Reveal delay={0.18}>
-            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <button onClick={() => onPick(ALGORITHMS[0].id)} className="btn btn-gold !px-5 sm:!px-6 !py-3 !text-[13.5px] sm:!text-[14px] w-full sm:w-auto justify-center">
                 <FlaskConical size={16} /> {t.home.ctaPrimary}
                 <ArrowUpRight size={15} className="rtl:rotate-90" />
