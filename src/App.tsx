@@ -85,7 +85,7 @@ export default function App() {
   }, [current, lang, pick, home]);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen w-full max-w-full overflow-x-hidden">
       <Ambient accent={accent} />
 
       <Navbar
@@ -105,6 +105,7 @@ export default function App() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4, ease: [0.22, 0.8, 0.24, 1] }}
+          className="w-full max-w-full overflow-x-hidden"
         >
           {meta ? (
             <Studio

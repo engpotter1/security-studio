@@ -26,11 +26,23 @@
     box-sizing: border-box;
   }
 
+  div,
+  section,
+  main,
+  header,
+  footer,
+  article,
+  aside {
+    min-width: 0;
+  }
+
   html,
   body,
   #root {
-    max-width: 100%;
+    width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
+    position: relative;
   }
 
   html {
