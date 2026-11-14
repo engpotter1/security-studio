@@ -124,7 +124,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
   }, [meta.id, result.trace]);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 overflow-x-hidden">
       {/* ============================ top: input / output ============================ */}
       <div className="grid gap-5 xl:grid-cols-12">
         <div className="xl:col-span-7">
@@ -136,7 +136,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
                     <button
                       key={m}
                       onClick={() => setMode(m)}
-                      className="relative flex items-center gap-1.5 rounded-[9px] px-3.5 py-1.5 text-[12.5px] font-bold transition-colors"
+                      className="relative flex items-center gap-1.5 rounded-[9px] px-3 sm:px-3.5 py-1.5 text-[12px] sm:text-[12.5px] font-bold transition-colors"
                       style={{ color: mode === m ? "#141003" : "rgba(255,255,255,0.55)" }}
                     >
                       {mode === m && (
@@ -155,7 +155,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
                   <Fingerprint size={11} /> {t.lab.hash} · one-way
                 </span>
               )}
-              <span className="mono ms-auto flex items-center gap-3 text-[11px] text-white/35">
+              <span className="mono ms-auto flex items-center gap-2 sm:gap-3 text-[10.5px] sm:text-[11px] text-white/35">
                 <span>{text.length} {t.lab.chars}</span>
                 <span className="h-3 w-px bg-white/12" />
                 <span>{letters} {t.lab.letters}</span>
@@ -181,14 +181,15 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
                 </motion.div>
               )}
 
-              <div className="mt-3 flex flex-wrap items-center gap-2">
+              {/* أزرار الأمثلة والتحكم معدلة بمرونة للتجاوب مع الموبايل من غير نقص */}
+              <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span className="mono text-[10px] uppercase tracking-[0.16em] text-white/30">{t.lab.presets}</span>
                 {c.lab.presets.map((p) => (
-                  <button key={p.label} onClick={() => setText(p.value)} className="btn btn-ghost !px-2.5 !py-1 !text-[11.5px]">
+                  <button key={p.label} onClick={() => setText(p.value)} className="btn btn-ghost !px-2 sm:!px-2.5 !py-1 !text-[11px] sm:!text-[11.5px]">
                     <Wand2 size={11} /> {p.label}
                   </button>
                 ))}
-                <button onClick={() => setText("")} className="btn btn-ghost ms-auto !px-2.5 !py-1 !text-[11.5px]">
+                <button onClick={() => setText("")} className="btn btn-ghost ms-auto !px-2 sm:!px-2.5 !py-1 !text-[11px] sm:!text-[11.5px]">
                   <Eraser size={11} /> {t.lab.clear}
                 </button>
               </div>
@@ -214,7 +215,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
               </div>
               <div dir="ltr" className="ltr relative min-h-[74px] overflow-x-auto rounded-xl border bg-black/55 px-3.5 py-3" style={{ borderColor: `${accent}33` }}>
                 {result.output ? (
-                  <motion.pre key={result.output.slice(0, 40)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mono whitespace-pre-wrap break-all text-[14px] font-medium leading-relaxed" style={{ color: accent, textShadow: `0 0 20px ${accent}44` }}>
+                  <motion.pre key={result.output.slice(0, 40)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mono whitespace-pre-wrap break-all text-[13.5px] sm:text-[14px] font-medium leading-relaxed" style={{ color: accent, textShadow: `0 0 20px ${accent}44` }}>
                     {result.output}
                   </motion.pre>
                 ) : (
@@ -246,12 +247,12 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
       </div>
 
       {/* ============================ visualization ============================ */}
-      <div className="glass relative overflow-hidden rounded-2xl p-5">
+      <div className="glass relative overflow-hidden rounded-2xl p-4 sm:p-5">
         <div className="pointer-events-none absolute inset-0 grid-bg opacity-40" />
         <div className="relative">
           <SectionHead kicker={t.lab.viz} title={vizTitle(meta.id, t)} accent={accent} icon={<Sparkles size={16} />} />
-          <p className="-mt-3 mb-4 max-w-3xl text-[12.5px] leading-relaxed text-white/45">{vizHint(meta.id, t)}</p>
-          <div className="min-h-[150px]">
+          <p className="-mt-3 mb-4 max-w-3xl text-[12px] sm:text-[12.5px] leading-relaxed text-white/45">{vizHint(meta.id, t)}</p>
+          <div className="min-h-[150px] overflow-x-auto">
             <Visualization
               meta={meta}
               text={text}
@@ -283,7 +284,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
       {/* ============================ SHA extras ============================ */}
       {sha && (
         <div className="grid gap-5 lg:grid-cols-2">
-          <div className="glass rounded-2xl p-5">
+          <div className="glass rounded-2xl p-4 sm:p-5">
             <SectionHead kicker="digest" title={t.lab.avalanche} accent={accent} icon={<Binary size={16} />} />
             <p className="mb-3 text-[12.5px] leading-relaxed text-white/50">{t.lab.avalancheHint}</p>
             <div dir="ltr" className="ltr space-y-2">
@@ -313,13 +314,13 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
                   transition={{ type: "spring", stiffness: 90, damping: 18 }}
                 />
               </div>
-              <span className="mono shrink-0 text-[12px] font-bold" style={{ color: accent }}>
+              <span className="mono shrink-0 text-[11.5px] sm:text-[12px] font-bold" style={{ color: accent }}>
                 {sha.avalanche.diffBits} / 256 {t.lab.flipped}
               </span>
             </div>
           </div>
 
-          <div className="glass rounded-2xl p-5">
+          <div className="glass rounded-2xl p-4 sm:p-5">
             <SectionHead kicker="attack" title={t.lab.brute} accent="#FF5D73" icon={<Gauge size={16} />} />
             <p className="mb-4 text-[12.5px] leading-relaxed text-white/50">{t.lab.bruteHint}</p>
             <button
@@ -368,13 +369,13 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
 
       {/* ============================ trace ============================ */}
       <div className="glass overflow-hidden rounded-2xl">
-        <button className="flex w-full items-center gap-3 px-5 py-4 text-start transition-colors hover:bg-white/[0.02]" onClick={() => setTraceOpen((v) => !v)}>
-          <span className="grid h-8 w-8 place-items-center rounded-lg" style={{ background: `${accent}18`, color: accent }}>
+        <button className="flex w-full items-center gap-3 px-4 sm:px-5 py-4 text-start transition-colors hover:bg-white/[0.02]" onClick={() => setTraceOpen((v) => !v)}>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg" style={{ background: `${accent}18`, color: accent }}>
             <Eye size={15} />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="block text-[15px] font-bold text-white/92">{t.lab.trace}</span>
-            <span className="block truncate text-[12px] text-white/42">{t.lab.traceHint}</span>
+            <span className="block text-[14px] sm:text-[15px] font-bold text-white/92">{t.lab.trace}</span>
+            <span className="block truncate text-[11.5px] sm:text-[12px] text-white/42">{t.lab.traceHint}</span>
           </span>
           <span className="mono chip">{result.trace.length} {t.lab.steps}</span>
           <motion.span animate={{ rotate: traceOpen ? 180 : 0 }}>
@@ -439,7 +440,7 @@ export default function LabTab({ meta, lang, t, text, setText, mode, setMode, ke
 }
 
 /* ==================================================================== */
-/* key controls                                                          */
+/* key controls                                                         */
 /* ==================================================================== */
 function KeyControls(props: {
   meta: AlgorithmMeta;
@@ -471,7 +472,7 @@ function KeyControls(props: {
               : "The shift is welded at 13 — half of 26. Encryption and decryption are the same operation."}
         </p>
         {kind !== "hash" && (
-          <div className="mt-4">
+          <div className="mt-4 overflow-x-auto">
             <AlphabetStrip accent={accent} mapping={(i) => (meta.id === "atbash" ? 25 - i : (i + 13) % 26)} />
           </div>
         )}
@@ -499,7 +500,9 @@ function KeyControls(props: {
             </button>
           ))}
         </div>
-        <AlphabetStrip accent={accent} mapping={(i) => (i + keyState.shift) % 26} />
+        <div className="overflow-x-auto">
+          <AlphabetStrip accent={accent} mapping={(i) => (i + keyState.shift) % 26} />
+        </div>
       </div>
     );
   }
@@ -558,7 +561,7 @@ function KeyControls(props: {
         <Field label={t.lab.keyword}>
           <input dir="ltr" className="field mono uppercase" value={keyState.keyword} maxLength={14} onChange={(e) => set({ keyword: e.target.value })} placeholder="ZEBRA" />
         </Field>
-        <div dir="ltr" className="ltr flex gap-1.5">
+        <div dir="ltr" className="ltr flex flex-wrap gap-1.5">
           {kw.split("").map((ch, i) => {
             const rank = order.findIndex((o) => o.i === i) + 1;
             return (
@@ -707,7 +710,7 @@ function KeyControls(props: {
 }
 
 /* ==================================================================== */
-/* visualization switcher                                                */
+/* visualization switcher                                               */
 /* ==================================================================== */
 function Visualization({
   meta,
@@ -855,7 +858,7 @@ function vizHint(id: AlgorithmMeta["id"], t: Dict) {
 }
 
 /* ==================================================================== */
-/* form primitives                                                       */
+/* form primitives                                                      */
 /* ==================================================================== */
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
