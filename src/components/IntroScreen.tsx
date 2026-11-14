@@ -7,14 +7,11 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // مدة عرض الانترو بالكامل قبل الاختفاء التلقائي (3.6 ثانية)
     const timer = setTimeout(() => {
       setVisible(false);
     }, 3600);
     return () => clearTimeout(timer);
   }, []);
-
-  const letters = TITLE.split("");
 
   return (
     <AnimatePresence onExitComplete={onDone}>
@@ -26,7 +23,7 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
           exit={{ opacity: 0, filter: "blur(12px)", scale: 1.04 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           onClick={() => setVisible(false)}
-          className="fixed inset-0 z-[9999] flex cursor-pointer flex-col items-center justify-center overflow-hidden bg-[#040508] px-4 select-none"
+          className="fixed inset-0 z-[9999] flex cursor-pointer flex-col items-center justify-center overflow-hidden bg-[#040508] px-4 text-center select-none"
         >
           {/* هالة إضاءة ذهبية خفيفة في الخلفية */}
           <motion.div
@@ -42,11 +39,11 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: [0, 0.6, 0] }}
             transition={{ duration: 2.4, ease: "easeInOut" }}
-            className="pointer-events-none absolute h-px w-[80%] max-w-[680px] bg-gradient-to-r from-transparent via-[#F5B82E] to-transparent"
+            className="pointer-events-none absolute h-px w-[85%] max-w-[680px] bg-gradient-to-r from-transparent via-[#F5B82E] to-transparent"
           />
 
           {/* الكلمة حرف حرف من العدم */}
-          <div className="relative flex flex-wrap items-center justify-center gap-x-[0.35em] gap-y-2 text-center">
+          <div className="relative flex flex-wrap items-center justify-center gap-x-[0.3em] sm:gap-x-[0.35em] gap-y-2 text-center">
             {TITLE.split(" ").map((word, wIdx) => (
               <span key={wIdx} className="inline-flex whitespace-nowrap">
                 {word.split("").map((char, cIdx) => {
@@ -71,7 +68,7 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
                         delay: 0.25 + globalIdx * 0.085,
                         ease: [0.16, 1, 0.3, 1],
                       }}
-                      className="font-display text-[clamp(1.75rem,6.8vw,4.5rem)] font-bold tracking-[0.22em] text-white"
+                      className="font-display text-[clamp(1.55rem,6.5vw,4.5rem)] font-bold tracking-[0.16em] sm:tracking-[0.22em] text-white"
                       style={{
                         textShadow:
                           globalIdx >= 7
@@ -88,18 +85,18 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
             ))}
           </div>
 
-          {/* شريط سفلي سينمائي صغير */}
+          {/* شريط سفلي سينمائي مظبوط في النص وعلى سطر واحد على الموبايل */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.75, duration: 0.7 }}
-            className="mt-6 flex items-center gap-3"
+            className="mt-5 sm:mt-6 flex w-full max-w-full items-center justify-center gap-2 sm:gap-3 px-2"
           >
-            <span className="h-px w-8 bg-gradient-to-r from-transparent to-[#F5B82E]/60" />
-            <span className="mono text-[10px] sm:text-[11px] uppercase tracking-[0.35em] text-white/45">
+            <span className="h-px w-5 sm:w-8 shrink-0 bg-gradient-to-r from-transparent to-[#F5B82E]/60" />
+            <span className="mono whitespace-nowrap text-center text-[8.5px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.35em] text-white/45">
               cryptography studio · initialized
             </span>
-            <span className="h-px w-8 bg-gradient-to-l from-transparent to-[#F5B82E]/60" />
+            <span className="h-px w-5 sm:w-8 shrink-0 bg-gradient-to-l from-transparent to-[#F5B82E]/60" />
           </motion.div>
 
           {/* تلميح التخطي */}
@@ -107,7 +104,7 @@ export default function IntroScreen({ onDone }: { onDone: () => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.3 }}
             transition={{ delay: 2.1, duration: 0.6 }}
-            className="mono absolute bottom-6 text-[9.5px] uppercase tracking-[0.25em] text-white"
+            className="mono absolute bottom-6 inset-x-0 text-center text-[9.5px] uppercase tracking-[0.25em] text-white"
           >
             tap anywhere to enter
           </motion.span>
