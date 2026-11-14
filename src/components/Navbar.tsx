@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Languages, LayoutGrid, ShieldHalf } from "lucide-react";
+import { Languages, LayoutGrid, Moon, ShieldHalf, Sun } from "lucide-react";
 import type { Dict } from "../i18n/ui";
 import type { Lang } from "../data/types";
 import { ALGORITHMS } from "../data/algorithms";
@@ -15,6 +15,8 @@ export default function Navbar({
   current,
   onToggleLang,
   accent,
+  theme = "dark",
+  onToggleTheme,
 }: {
   t: Dict;
   lang: Lang;
@@ -23,6 +25,8 @@ export default function Navbar({
   current: AlgorithmId | null;
   onToggleLang: () => void;
   accent: string;
+  theme?: "dark" | "light";
+  onToggleTheme?: () => void;
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -42,8 +46,14 @@ export default function Navbar({
       className="sticky top-0 z-50 overflow-x-hidden"
     >
       <div
-        className={`border-b transition-all duration-500 ${scrolled ? "border-white/8 bg-[#0B0D14]/85 backdrop-blur-xl" : "border-transparent bg-transparent"}`}
-        style={scrolled ? { boxShadow: "0 18px 50px -32px rgba(0,0,0,1)" } : undefined}
+        className={`border-b transition-all duration-500 ${
+          scrolled
+            ? theme === "light"
+              ? "border-black/8 bg-[#F5F3EC]/85 backdrop-blur-xl"
+              : "border-white/8 bg-[#0B0D14]/85 backdrop-blur-xl"
+            : "border-transparent bg-transparent"
+        }`}
+        style={scrolled ? { boxShadow: theme === "light" ? "0 14px 40px -28px rgba(0,0,0,0.25)" : "0 18px 50px -32px rgba(0,0,0,1)" } : undefined}
       >
         <div className="mx-auto flex h-[64px] sm:h-[68px] max-w-[1440px] items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 lg:px-9">
           <button onClick={onHome} className="group flex items-center gap-2.5 sm:gap-3 text-start min-w-0">
@@ -68,7 +78,7 @@ export default function Navbar({
                 title={`${a.n}. ${a.content[lang].name}`}
                 className="group relative grid h-9 w-9 place-items-center rounded-lg transition-all duration-300 hover:-translate-y-0.5"
                 style={{
-                  color: current === a.id ? a.accent : "rgba(255,255,255,0.32)",
+                  color: current === a.id ? a.accent : theme === "light" ? "rgba(20,25,38,0.45)" : "rgba(255,255,255,0.32)",
                   background: current === a.id ? `${a.accent}18` : "transparent",
                   border: `1px solid ${current === a.id ? `${a.accent}44` : "transparent"}`,
                 }}
@@ -80,6 +90,16 @@ export default function Navbar({
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {onToggleTheme && (
+              <button
+                onClick={onToggleTheme}
+                className="btn btn-ghost !px-2.5 !py-2"
+                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+                aria-label="Toggle Theme"
+              >
+                {theme === "dark" ? <Sun size={16} className="text-[#F5B82E]" /> : <Moon size={16} className="text-[#1a2030]" />}
+              </button>
+            )}
             <button onClick={() => setOpen((v) => !v)} className="btn btn-ghost !px-2.5 !py-2 lg:hidden" aria-label={t.nav.grid}>
               <LayoutGrid size={16} />
             </button>
@@ -91,7 +111,13 @@ export default function Navbar({
         </div>
 
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} className="overflow-hidden border-t border-white/6 bg-[#0B0D14]/95 backdrop-blur-xl lg:hidden">
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            className={`overflow-hidden border-t backdrop-blur-xl lg:hidden ${
+              theme === "light" ? "border-black/8 bg-[#F5F3EC]/95" : "border-white/6 bg-[#0B0D14]/95"
+            }`}
+          >
             <div className="grid grid-cols-2 gap-2 p-3 sm:p-4 sm:grid-cols-3 max-h-[60vh] overflow-y-auto">
               {ALGORITHMS.map((a) => (
                 <button

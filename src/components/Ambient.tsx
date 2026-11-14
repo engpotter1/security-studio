@@ -2,14 +2,12 @@ import { useEffect, useRef } from "react";
 
 type P = { x: number; y: number; vx: number; vy: number; r: number };
 
-/**
- * Ambient layer: particle network + gold horizon glows + isometric grid.
- * Sits behind everything and reacts subtly to the pointer.
- */
-export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
+export default function Ambient({ accent = "#F5B82E", theme = "dark" }: { accent?: string; theme?: "dark" | "light" }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const accentRef = useRef(accent);
   accentRef.current = accent;
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
 
   useEffect(() => {
     const canvas = ref.current;
@@ -55,7 +53,8 @@ export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
-      const [cr, cg, cb] = hexToRgb(accentRef.current);
+      const isLight = themeRef.current === "light";
+      const [cr, cg, cb] = isLight ? [180, 125, 16] : hexToRgb(accentRef.current);
 
       for (const p of particles) {
         if (!reduced) {
@@ -83,7 +82,7 @@ export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
           const dy = a.y - b.y;
           const d = Math.hypot(dx, dy);
           if (d < 145) {
-            const alpha = (1 - d / 145) * 0.2;
+            const alpha = (1 - d / 145) * (isLight ? 0.16 : 0.2);
             ctx.strokeStyle = `rgba(${cr},${cg},${cb},${alpha})`;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
@@ -95,7 +94,7 @@ export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
       }
 
       for (const p of particles) {
-        ctx.fillStyle = `rgba(${cr},${cg},${cb},0.5)`;
+        ctx.fillStyle = `rgba(${cr},${cg},${cb},${isLight ? 0.45 : 0.5})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
@@ -126,9 +125,16 @@ export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
     };
   }, []);
 
+  const isLight = theme === "light";
+
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#0B0D14]">
-      <div className="absolute inset-0 grid-bg opacity-60" />
+    <div
+      aria-hidden
+      className={`pointer-events-none fixed inset-0 -z-10 overflow-hidden transition-colors duration-500 ${
+        isLight ? "bg-[#F5F3EC]" : "bg-[#0B0D14]"
+      }`}
+    >
+      <div className={`absolute inset-0 grid-bg ${isLight ? "opacity-70" : "opacity-60"}`} />
       <div
         className="anim-flicker absolute -top-[22vh] start-[8vw] h-[60vh] w-[60vw] rounded-full opacity-[0.16] blur-[130px]"
         style={{ background: `radial-gradient(circle, ${accent}, transparent 68%)` }}
@@ -137,9 +143,16 @@ export default function Ambient({ accent = "#F5B82E" }: { accent?: string }) {
         className="absolute bottom-[-24vh] end-[-10vw] h-[62vh] w-[52vw] rounded-full opacity-[0.12] blur-[140px]"
         style={{ background: "radial-gradient(circle, #57B8FF, transparent 70%)" }}
       />
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F5B82E]/35 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#F5B82E]/45 to-transparent" />
       <canvas ref={ref} className="absolute inset-0" />
-      <div className="absolute inset-0" style={{ background: "radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(4,5,9,0.82) 100%)" }} />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: isLight
+            ? "radial-gradient(120% 90% at 50% 0%, transparent 45%, rgba(235,231,220,0.75) 100%)"
+            : "radial-gradient(120% 90% at 50% 0%, transparent 40%, rgba(4,5,9,0.82) 100%)",
+        }}
+      />
     </div>
   );
 }

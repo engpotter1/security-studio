@@ -15,6 +15,7 @@ const GOLD = "#F5B82E";
 
 export default function App() {
   const [lang, setLang] = useState<Lang>(() => (typeof navigator !== "undefined" && navigator.language?.toLowerCase().startsWith("ar") ? "ar" : "en"));
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [current, setCurrent] = useState<AlgorithmId | null>(null);
   const [tab, setTab] = useState<Tab>("explain");
   const [labs, setLabs] = useState<Partial<Record<AlgorithmId, LabState>>>({});
@@ -30,6 +31,11 @@ export default function App() {
     document.documentElement.dir = dir;
     document.body.setAttribute("dir", dir);
   }, [lang]);
+
+  /* ---------- theme class ---------- */
+  useEffect(() => {
+    document.documentElement.classList.toggle("light", theme === "light");
+  }, [theme]);
 
   /* ---------- per-algorithm lab state ---------- */
   const lab: LabState = useMemo(() => {
@@ -86,7 +92,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full max-w-full overflow-x-hidden">
-      <Ambient accent={accent} />
+      <Ambient accent={accent} theme={theme} />
 
       <Navbar
         t={t}
@@ -96,6 +102,8 @@ export default function App() {
         onHome={home}
         onPick={pick}
         onToggleLang={() => setLang((l) => (l === "ar" ? "en" : "ar"))}
+        theme={theme}
+        onToggleTheme={() => setTheme((th) => (th === "dark" ? "light" : "dark"))}
       />
 
       <AnimatePresence mode="wait">
